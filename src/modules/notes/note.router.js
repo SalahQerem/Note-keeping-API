@@ -3,7 +3,6 @@ import {
   addNote,
   deleteNote,
   getNotes,
-  searchForNotes,
   updateNote,
 } from "./note.controller.js";
 
@@ -13,6 +12,5 @@ router.get("/", getNotes);
 router.post("/", addNote);
 router.delete("/:id", deleteNote);
 router.put("/:id", updateNote);
-router.get("/search", searchForNotes);
 
 export default router;
