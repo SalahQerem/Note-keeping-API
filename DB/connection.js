@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const connectDb = async () => {
+const connectDb = () => {
   return mongoose
     .connect(`${process.env.DB}`)
     .then(() => {
