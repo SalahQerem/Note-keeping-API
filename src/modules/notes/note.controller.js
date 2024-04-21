@@ -12,7 +12,14 @@ export const getNotes = async (req, res) => {
       {},
       { skip: (page - 1) * limit, limit }
     );
-    return res.status(200).json({ notes });
+
+    const totalCount = await noteModel.countDocuments({
+      title: { $regex: title, $options: "i" },
+      content: { $regex: content, $options: "i" },
+    });
+
+    const numOfPages = Math.ceil(totalCount / limit);
+    return res.status(200).json({ notes, numOfPages });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
