@@ -16,7 +16,7 @@ Note Keepeing REST API with Node.js, Express.js, and MongoDB
     
     - **`PUT /notes/:id`**: Update a specific note using its ID.
     
-    - **`GET /notes/search?query=YOUR_QUERY`**: Search notes by their title or content, search as startWith function.
+    - **`GET /notes?title=TITLE&content=CONTENT`**: Search notes by their title or content, search as startWith function.
     
 ## API Deployment
 
