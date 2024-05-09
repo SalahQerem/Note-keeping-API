@@ -16,12 +16,14 @@ export const getNotes = async (req, res) => {
         content: { $regex: content, $options: "i" },
       },
       {},
-      { skip: (min(page, numOfPages) - 1) * limit, limit }
+      { skip: (Math.min(page, numOfPages) - 1) * limit, limit }
     );
 
     return res.status(200).json({ notes, numOfPages });
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.stack });
   }
 };
 
@@ -42,7 +44,9 @@ export const addNote = async (req, res) => {
     if (error.errors.content)
       return res.status(400).json({ message: "the content field is required" });
 
-    return res.status(500).json({ message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.stack });
   }
 };
 
@@ -59,7 +63,9 @@ export const deleteNote = async (req, res) => {
       return res
         .status(404)
         .json({ message: "id is not compatable with ObjectId format" });
-    return res.status(500).json({ message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.stack });
   }
 };
 
@@ -81,6 +87,8 @@ export const updateNote = async (req, res) => {
       return res
         .status(404)
         .json({ message: "id is not compatable with ObjectId format" });
-    return res.status(500).json({ message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.stack });
   }
 };
