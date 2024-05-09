@@ -4,21 +4,21 @@ export const getNotes = async (req, res) => {
   const { page = 1, limit = 3, title = "", content = "" } = req.query;
 
   try {
+    const totalCount = await noteModel.countDocuments({
+      title: { $regex: title, $options: "i" },
+      content: { $regex: content, $options: "i" },
+    });
+    const numOfPages = Math.ceil(totalCount / limit);
+
     const notes = await noteModel.find(
       {
         title: { $regex: title, $options: "i" },
         content: { $regex: content, $options: "i" },
       },
       {},
-      { skip: (page - 1) * limit, limit }
+      { skip: (min(page, numOfPages) - 1) * limit, limit }
     );
 
-    const totalCount = await noteModel.countDocuments({
-      title: { $regex: title, $options: "i" },
-      content: { $regex: content, $options: "i" },
-    });
-
-    const numOfPages = Math.ceil(totalCount / limit);
     return res.status(200).json({ notes, numOfPages });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
